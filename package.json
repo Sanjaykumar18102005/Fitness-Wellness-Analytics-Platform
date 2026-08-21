@@ -1,0 +1,15 @@
+{
+  "name": "fitness-wellness-analytics-platform",
+  "version": "0.1.0",
+  "description": "Backend API for fitness and wellness analytics",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node src/index.js",
+    "start": "node src/index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
