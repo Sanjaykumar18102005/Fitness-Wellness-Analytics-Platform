@@ -9,6 +9,7 @@ describe('Fitness Platform Integration Test Suite', () => {
   beforeAll(async () => {
     setUseMemory(true);
     memoryDb.reset();
+    await require('../../scripts/seed')();
   });
 
   describe('1. Membership & Authentication Module', () => {
