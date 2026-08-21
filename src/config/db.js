@@ -93,7 +93,7 @@ function runInMemoryQuery(text, params) {
 
   // INSERT INTO table (...) VALUES (...) RETURNING *
   if (normalized.toUpperCase().startsWith('INSERT INTO')) {
-    const match = normalized.match(/INSERT INTO\s+(\w+)\s*\(([^)]+)\)\s*VALUES\s*\(([^)]+)\)/i);
+    const match = normalized.match(/INSERT INTO\s+(\w+)\s*\(([^)]+)\)/i);
     if (match) {
       const table = match[1];
       const columns = match[2].split(',').map((c) => c.trim().replace(/"/g, ''));
@@ -156,6 +156,16 @@ function runInMemoryQuery(text, params) {
       const table = tableMatch[1];
       let rows = memoryDb.tables[table] || [];
 
+      if (table === 'trainer_availability' && normalized.includes('SET is_booked = true')) {
+        const targetId = params[0];
+        const target = rows.find((r) => r.id == targetId);
+        if (!target || target.is_booked) {
+          return { rows: [], rowCount: 0 };
+        }
+        target.is_booked = true;
+        return { rows: [target], rowCount: 1 };
+      }
+
       if (normalized.includes('WHERE id = $2') || normalized.includes('WHERE id = $3')) {
         const targetId = params[params.length - 1];
         const target = rows.find((r) => r.id == targetId);
@@ -166,9 +176,6 @@ function runInMemoryQuery(text, params) {
           if (normalized.includes('membership_plan_id = $1')) {
             target.membership_plan_id = params[0];
             target.membership_expiry = params[1];
-          }
-          if (normalized.includes('is_booked = true')) {
-            target.is_booked = true;
           }
           if (normalized.includes('status =')) {
             target.status = params[0];
