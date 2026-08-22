@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FitPulse | Enterprise Fitness & Wellness Portal</title>
-  <meta name="description" content="Centralized Multi-Branch Fitness Operations, Automated Scheduling, Biometric Risk Tracking & Personalized Analytics.">
-  
+  <meta name="description"
+    content="Centralized Multi-Branch Fitness Operations, Automated Scheduling, Biometric Risk Tracking & Personalized Analytics.">
+
   <!-- Modern Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
   <style>
     :root {
       --bg-dark: #070b14;
       --bg-card: rgba(15, 23, 42, 0.78);
       --bg-card-hover: rgba(30, 41, 59, 0.88);
       --bg-glass-input: rgba(15, 23, 42, 0.65);
-      
+
       --accent-cyan: #00f2fe;
       --accent-blue: #3b82f6;
       --accent-purple: #8b5cf6;
@@ -25,11 +29,11 @@
       --accent-orange: #f97316;
       --accent-green: #10b981;
       --accent-red: #ef4444;
-      
+
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
-      
+
       --border-color: rgba(255, 255, 255, 0.08);
       --border-active: rgba(0, 242, 254, 0.4);
       --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
@@ -45,7 +49,7 @@
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background: #070b14;
-      background-image: 
+      background-image:
         radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
         radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
         radial-gradient(at 50% 100%, rgba(0, 242, 254, 0.08) 0px, transparent 50%);
@@ -75,7 +79,7 @@
       color: #fff;
       padding: 14px 20px;
       border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       font-size: 13px;
       display: flex;
       align-items: center;
@@ -84,8 +88,15 @@
     }
 
     @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
     }
 
     /* CENTRALIZED LOGIN PORTAL (UNAUTHENTICATED VIEW) */
@@ -180,7 +191,7 @@
 
     .demo-pill-group {
       margin-top: 24px;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
       padding-top: 18px;
     }
 
@@ -365,8 +376,15 @@
     }
 
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* GRID & CARDS */
@@ -434,7 +452,9 @@
       letter-spacing: 0.5px;
     }
 
-    input, select, textarea {
+    input,
+    select,
+    textarea {
       width: 100%;
       padding: 12px 16px;
       background: var(--bg-glass-input);
@@ -446,7 +466,9 @@
       transition: all 0.2s ease;
     }
 
-    input:focus, select:focus, textarea:focus {
+    input:focus,
+    select:focus,
+    textarea:focus {
       outline: none;
       border-color: var(--accent-cyan);
       box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
@@ -468,7 +490,9 @@
       gap: 8px;
     }
 
-    .btn-full { width: 100%; }
+    .btn-full {
+      width: 100%;
+    }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
@@ -582,6 +606,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- TOAST NOTIFICATION STACK -->
@@ -591,7 +616,7 @@
   <div id="loginPortal" class="login-wrapper">
     <div class="auth-box">
       <div class="brand-logo-large">F</div>
-      <h2 class="auth-title">FitPulse Platform</h2>
+      <h2 class="auth-title">FitPulse Platform V2</h2>
       <p class="auth-subtitle">Sign in to access your personalized fitness & wellness workspace</p>
 
       <!-- AUTH MODE TOGGLE -->
@@ -634,9 +659,13 @@
       <div class="demo-pill-group">
         <div class="demo-pill-title">⚡ Quick Fill Demo Accounts</div>
         <div class="demo-pills">
-          <button class="demo-pill-btn" onclick="quickFill('john.member@fitclub.com','Password123!','member')">👤 Member: John</button>
-          <button class="demo-pill-btn" onclick="quickFill('trainer.alex@fitclub.com','trainerpass','trainer')">💪 Trainer: Alex</button>
-          <button class="demo-pill-btn" onclick="quickFill('consultant.sarah@fitclub.com','consultantpass','consultant')">🩺 Consultant: Sarah</button>
+          <button class="demo-pill-btn" onclick="quickFill('john.member@fitclub.com','Password123!','member')">👤
+            Member: John</button>
+          <button class="demo-pill-btn" onclick="quickFill('trainer.alex@fitclub.com','trainerpass','trainer')">💪
+            Trainer: Alex</button>
+          <button class="demo-pill-btn"
+            onclick="quickFill('consultant.sarah@fitclub.com','consultantpass','consultant')">🩺 Consultant:
+            Sarah</button>
           <button class="demo-pill-btn" onclick="quickFill('admin@fitclub.com','adminpass','admin')">👑 Admin</button>
         </div>
       </div>
@@ -681,7 +710,8 @@
               <div class="card-title">💳 My Membership Status & Plan Tiers</div>
               <div class="card-subtitle" id="membershipStatusDesc">Loading membership details...</div>
             </div>
-            <button class="btn btn-primary" style="padding:6px 14px; font-size:12px;" onclick="loadPlans()">Browse / Upgrade Plan</button>
+            <button class="btn btn-primary" style="padding:6px 14px; font-size:12px;" onclick="loadPlans()">Browse /
+              Upgrade Plan</button>
           </div>
           <div id="plansList"></div>
         </div>
@@ -692,7 +722,8 @@
               <div class="card-title">🥗 My Personalized Wellness & Nutrition Plan</div>
               <div class="card-subtitle">AI-calculated macros, daily calories, and recommended workout schedule</div>
             </div>
-            <button class="btn btn-purple" style="padding:6px 14px; font-size:12px;" onclick="loadPersonalizedPlan()">Recalculate My Plan</button>
+            <button class="btn btn-purple" style="padding:6px 14px; font-size:12px;"
+              onclick="loadPersonalizedPlan()">Recalculate My Plan</button>
           </div>
           <div id="wellnessPlanContainer">
             <p style="color:var(--text-muted)">Generating your personalized nutrition plan...</p>
@@ -729,9 +760,12 @@
                 <div class="card-title">📅 Open Trainer Slots & Booking Engine</div>
                 <div class="card-subtitle">Atomic concurrency-guarded slot reservations</div>
               </div>
-              <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="loadOpenSlots()">Refresh Slots</button>
+              <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;"
+                onclick="loadOpenSlots()">Refresh Slots</button>
             </div>
-            <div id="openSlotsList"><p style="color:var(--text-muted)">Loading available slots...</p></div>
+            <div id="openSlotsList">
+              <p style="color:var(--text-muted)">Loading available slots...</p>
+            </div>
           </div>
         </div>
 
@@ -741,9 +775,12 @@
               <div class="card-title">📋 My Session Bookings & History</div>
               <div class="card-subtitle">View and manage scheduled trainer appointments</div>
             </div>
-            <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="loadMyBookings()">Refresh Bookings</button>
+            <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="loadMyBookings()">Refresh
+              Bookings</button>
           </div>
-          <div id="myBookingsList"><p style="color:var(--text-muted)">Loading your bookings...</p></div>
+          <div id="myBookingsList">
+            <p style="color:var(--text-muted)">Loading your bookings...</p>
+          </div>
         </div>
       </div>
 
@@ -759,7 +796,8 @@
             </div>
             <div class="form-group">
               <label>Medical History</label>
-              <textarea id="medHistory" rows="3" placeholder="e.g. Mild hypertension, allergy to penicillin, no cardiac surgeries"></textarea>
+              <textarea id="medHistory" rows="3"
+                placeholder="e.g. Mild hypertension, allergy to penicillin, no cardiac surgeries"></textarea>
             </div>
             <div class="form-group">
               <label>Fitness Goals</label>
@@ -780,16 +818,21 @@
               </div>
             </div>
             <div class="grid-2">
-              <div class="form-group"><label>Systolic BP (mmHg)</label><input type="number" id="sysBp" value="145"></div>
-              <div class="form-group"><label>Diastolic BP (mmHg)</label><input type="number" id="diaBp" value="92"></div>
+              <div class="form-group"><label>Systolic BP (mmHg)</label><input type="number" id="sysBp" value="145">
+              </div>
+              <div class="form-group"><label>Diastolic BP (mmHg)</label><input type="number" id="diaBp" value="92">
+              </div>
             </div>
             <div class="grid-2">
-              <div class="form-group"><label>Heart Rate (bpm)</label><input type="number" id="heartRate" value="84"></div>
+              <div class="form-group"><label>Heart Rate (bpm)</label><input type="number" id="heartRate" value="84">
+              </div>
               <div class="form-group"><label>Weight (kg)</label><input type="number" id="weightKg" value="76.5"></div>
             </div>
             <div class="grid-2">
-              <div class="form-group"><label>Workout Type</label><input type="text" id="workoutType" value="Zone 2 Interval Cardio"></div>
-              <div class="form-group"><label>Duration (mins)</label><input type="number" id="workoutDuration" value="45"></div>
+              <div class="form-group"><label>Workout Type</label><input type="text" id="workoutType"
+                  value="Zone 2 Interval Cardio"></div>
+              <div class="form-group"><label>Duration (mins)</label><input type="number" id="workoutDuration"
+                  value="45"></div>
             </div>
             <button class="btn btn-purple btn-full" onclick="logHealthMetrics()">Log Metrics & Check Risk</button>
           </div>
@@ -804,9 +847,12 @@
               <div class="card-title">🩺 Health Consultant Review Queue</div>
               <div class="card-subtitle">Review members with flagged biometric thresholds or health risks</div>
             </div>
-            <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="loadRiskQueue()">Refresh Queue</button>
+            <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="loadRiskQueue()">Refresh
+              Queue</button>
           </div>
-          <div id="riskQueueList"><p style="color:var(--text-muted)">Loading risk queue...</p></div>
+          <div id="riskQueueList">
+            <p style="color:var(--text-muted)">Loading risk queue...</p>
+          </div>
         </div>
       </div>
 
@@ -819,7 +865,8 @@
                 <div class="card-title">🌐 Multi-Branch Performance Matrix</div>
                 <div class="card-subtitle">Revenue, members, & equipment capacity per branch</div>
               </div>
-              <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="loadAnalytics()">Refresh Data</button>
+              <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;"
+                onclick="loadAnalytics()">Refresh Data</button>
             </div>
             <div id="branchMatrixContainer"></div>
           </div>
@@ -841,7 +888,8 @@
               <div class="card-title">⏰ Automated Renewal Reminders Job (Admin)</div>
               <div class="card-subtitle">Scan expiring memberships (&le;7 days) and send non-duplicate alerts</div>
             </div>
-            <button class="btn btn-purple" style="padding:8px 16px; font-size:12px;" onclick="runRenewalJob()">Trigger Renewal Batch Job</button>
+            <button class="btn btn-purple" style="padding:8px 16px; font-size:12px;" onclick="runRenewalJob()">Trigger
+              Renewal Batch Job</button>
           </div>
           <div id="renewalJobLog" style="font-family:monospace; font-size:12px; color:#7dd3fc; margin-top:8px;"></div>
         </div>
@@ -855,7 +903,8 @@
               <div class="card-title">🏋️ Equipment & Facility Monitor</div>
               <div class="card-subtitle">Real-time status, unit utilization, and maintenance logs</div>
             </div>
-            <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="loadEquipment()">Refresh Equipment</button>
+            <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="loadEquipment()">Refresh
+              Equipment</button>
           </div>
           <div id="equipmentListContainer"></div>
         </div>
@@ -869,7 +918,8 @@
               <div class="card-title">🔔 Notification Log Feed</div>
               <div class="card-subtitle">Event-driven asynchronous notifications log</div>
             </div>
-            <button class="btn btn-primary" style="padding:6px 14px; font-size:12px;" onclick="loadNotifications()">Fetch Notifications</button>
+            <button class="btn btn-primary" style="padding:6px 14px; font-size:12px;"
+              onclick="loadNotifications()">Fetch Notifications</button>
           </div>
           <div id="notificationsLogContainer"></div>
         </div>
@@ -1525,4 +1575,5 @@
     }
   </script>
 </body>
+
 </html>
