@@ -2,9 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_USER = 'sanjaykumar18102005'
-        IMAGE_NAME      = 'fitness-wellness-platform'
-        IMAGE_TAG       = "${env.BUILD_NUMBER}"
+        NODE_VERSION = 'v20.11.1'
     }
 
     stages {
@@ -14,26 +12,36 @@ pipeline {
             }
         }
 
-        stage('2. Install Dependencies & Run Tests') {
+        stage('2. Setup Portable Node.js') {
             steps {
-                // Runs Node via Docker CLI directly to bypass missing plugin requirements
                 sh '''
-                    docker run --rm -v $PWD:/app -w /app node:20-alpine sh -c "npm ci && npm test"
+                    if [ ! -d "node-${NODE_VERSION}-linux-x64" ]; then
+                        echo "Downloading portable Node.js ${NODE_VERSION}..."
+                        curl -sOSL https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.xz
+                        tar -xf node-${NODE_VERSION}-linux-x64.tar.xz
+                        rm node-${NODE_VERSION}-linux-x64.tar.xz
+                    fi
                 '''
             }
         }
 
-        stage('3. Build Docker Image') {
+        stage('3. Install Dependencies & Run Tests') {
             steps {
-                echo "Building Docker image..."
-                sh "docker build -t ${DOCKER_HUB_USER}/${IMAGE_NAME}:${IMAGE_TAG} -f Dockerfile ."
+                sh '''
+                    export PATH="$PWD/node-${NODE_VERSION}-linux-x64/bin:$PATH"
+                    echo "Using Node version: $(node -v)"
+                    echo "Using NPM version: $(npm -v)"
+                    npm ci
+                    npm test
+                '''
             }
         }
 
         stage('4. Run Smoke Tests') {
             steps {
                 sh '''
-                    docker run --rm -v $PWD:/app -w /app node:20-alpine sh -c "npm run smoke-test || echo 'No smoke test configured'"
+                    export PATH="$PWD/node-${NODE_VERSION}-linux-x64/bin:$PATH"
+                    npm run smoke-test || echo "No smoke test script defined in package.json"
                 '''
             }
         }
