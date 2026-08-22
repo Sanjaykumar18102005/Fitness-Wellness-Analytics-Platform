@@ -9,8 +9,14 @@
     "test": "jest --runInBand --detectOpenHandles --forceExit",
     "test:unit": "jest tests/unit --runInBand --forceExit",
     "test:integration": "jest tests/integration --runInBand --forceExit",
+    "lint": "npx eslint src/ tests/ || node -c src/server.js",
     "migrate": "node scripts/migrate.js",
-    "seed": "node scripts/seed.js"
+    "seed": "node scripts/seed.js",
+    "smoke-test": "node scripts/smoke-test.js",
+    "docker:up": "docker compose up --build -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "docker:test": "docker compose exec app npm test"
   },
   "author": "",
   "license": "MIT",

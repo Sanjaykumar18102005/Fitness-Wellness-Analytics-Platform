@@ -199,3 +199,49 @@ This repository strictly adheres to Gitflow branching:
 - `feature/*`: Scoped feature development (`feature/membership-auth`, `feature/trainer-scheduling`, `feature/health-progress`, `feature/notification-service`).
 
 Conventional commit messages are enforced across all commits.
+
+---
+
+## 🏗️ Containerized Jenkins CI/CD Pipeline Setup
+
+This project features a fully automated, 11-stage **Jenkins Declarative Pipeline** running as a Docker container using Docker-outside-of-Docker architecture.
+
+### 1. Standing Up Jenkins in Docker
+
+Launch the containerized Jenkins automation server:
+```bash
+docker compose -f docker-compose.jenkins.yml up --build -d
+```
+
+### 2. Retrieving Initial Admin Password
+
+To log in for the first time, retrieve the auto-generated initial admin password:
+```bash
+docker exec fitness_jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+```
+Open **`http://localhost:8080`** in your browser, paste the password, and choose **Install Recommended Plugins**.
+
+### 3. Installing Required Jenkins Plugins
+
+Navigate to **Manage Jenkins -> Plugins -> Available Plugins** and install:
+- **Docker Pipeline** (`docker-workflow`)
+- **GitHub Plugin** (`github`)
+- **Slack Notification Plugin** (`slack`)
+- **AnsiColor Plugin** (`ansicolor`)
+
+### 4. Configuring Credentials & Webhooks
+
+- **Docker Registry Credentials**: Go to **Manage Jenkins -> Credentials -> System -> Global credentials -> Add Credentials**. Select *Username with Password*, ID: `docker-registry-credentials`, entering your Docker Hub / GHCR username and password/token.
+- **GitHub Webhook**: In your GitHub Repository Settings -> **Webhooks -> Add webhook**:
+  - Payload URL: `http://<YOUR_JENKINS_SERVER_IP>:8080/github-webhook/`
+  - Content type: `application/json`
+  - Trigger events: `Pushes` and `Pull Requests`.
+
+### 5. Gitflow Pipeline Stage Behavior
+
+| Branch Pattern | Executed Pipeline Stages | Deploy Behavior |
+| :--- | :--- | :--- |
+| `feature/*` & PRs | 1. Checkout<br>2. Install (`npm ci`)<br>3. Lint (`ESLint`)<br>4. Unit Tests (`Jest`)<br>5. Integration Tests (`Postgres` & `Redis`)<br>6. Security Scan (`npm audit` & `Trivy`) | **No Deployment** |
+| `develop` | Stages 1–8 + **Stage 9: Deploy to Staging** + Smoke Tests (`scripts/smoke-test.sh`) | **Auto-Deploy to Staging** (`docker-compose.staging.yml`) |
+| `main` | Stages 1–9 + **Stage 10: Manual Approval Gate** + **Stage 11: Deploy to Production** | **Manual Approval Gate** -> Deploy to Production (`docker-compose.prod.yml`) with automatic rollback on failure |
+

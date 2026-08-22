@@ -6,7 +6,7 @@ async function migrate() {
   const migrationSQL = `
     CREATE TABLE IF NOT EXISTS membership_plans (
       id SERIAL PRIMARY KEY,
-      name VARCHAR(100) NOT NULL,
+      name VARCHAR(100) UNIQUE NOT NULL,
       price NUMERIC(10,2) NOT NULL,
       duration_days INTEGER NOT NULL,
       features TEXT,

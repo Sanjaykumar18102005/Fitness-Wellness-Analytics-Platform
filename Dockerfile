@@ -1,23 +1,23 @@
-# Use a slim, versioned base image for smaller size and reproducibility
+# Production-ready, versioned Node.js Alpine base image
 FROM node:20-alpine
 
-# Set working directory inside the container
+# Set working directory
 WORKDIR /usr/src/app
 
-# Copy only dependency manifests first to leverage Docker layer caching
+# Copy dependency manifests
 COPY package*.json ./
 
-# Install production dependencies
-RUN npm ci --omit=dev
+# Install dependencies (including devDependencies required for migration/tests)
+RUN npm ci
 
-# Copy the rest of the application source
+# Copy application source code
 COPY . .
 
-# Document the port the app listens on (informational, not enforced)
+# Expose HTTP port
 EXPOSE 3000
 
-# Run as a non-root user for better container security
+# Set non-root user
 USER node
 
-# Start the application
-CMD ["node", "src/server.js"]
+# Default command: run migrations, seed data, and start server
+CMD ["sh", "-c", "node scripts/migrate.js && node scripts/seed.js && node src/server.js"]

@@ -1,6 +1,5 @@
 const eventEmitter = require('./eventEmitter');
 const { query } = require('../config/db');
-const { getRedisClient } = require('../config/redis');
 
 class NotificationService {
   constructor() {
@@ -30,11 +29,7 @@ class NotificationService {
     try {
       console.log(`[ASYNC NOTIFICATION STUB] Type: ${type} | User: ${userId} | Payload:`, JSON.stringify(payload));
 
-      // Publish to Redis channel if Redis is active
-      const redis = getRedisClient();
-      await redis.publish('notifications', JSON.stringify({ type, userId, payload }));
-
-      // Persist in notification log table
+      // Persist in single PostgreSQL notification log table
       if (userId) {
         await query(
           `INSERT INTO notifications_log (user_id, type, payload, status) VALUES ($1, $2, $3, 'sent')`,

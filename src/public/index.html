@@ -3,24 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fitness Club & Wellness Analytics Platform</title>
+  <title>FitPulse | Enterprise Fitness & Wellness Portal</title>
+  <meta name="description" content="Centralized Multi-Branch Fitness Operations, Automated Scheduling, Biometric Risk Tracking & Personalized Analytics.">
+  
+  <!-- Modern Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      --bg-dark: #0a0e17;
-      --bg-card: rgba(21, 29, 46, 0.75);
-      --bg-card-hover: rgba(30, 42, 66, 0.85);
-      --accent-primary: #00f2fe;
-      --accent-secondary: #4facfe;
-      --accent-pink: #f857a6;
-      --accent-orange: #ff5858;
-      --accent-green: #00e676;
-      --text-main: #f0f4f8;
-      --text-muted: #8a99ad;
+      --bg-dark: #070b14;
+      --bg-card: rgba(15, 23, 42, 0.78);
+      --bg-card-hover: rgba(30, 41, 59, 0.88);
+      --bg-glass-input: rgba(15, 23, 42, 0.65);
+      
+      --accent-cyan: #00f2fe;
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --accent-pink: #ec4899;
+      --accent-orange: #f97316;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
       --border-color: rgba(255, 255, 255, 0.08);
-      --glass-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+      --border-active: rgba(0, 242, 254, 0.4);
+      --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      --glow-cyan: 0 0 25px rgba(0, 242, 254, 0.25);
     }
 
     * {
@@ -31,92 +44,286 @@
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background: radial-gradient(circle at 10% 20%, #0d1b2a 0%, #0a0e17 90%);
+      background: #070b14;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(0, 242, 254, 0.08) 0px, transparent 50%);
+      background-attachment: fixed;
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* TOAST CONTAINER */
+    #toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--accent-cyan);
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* CENTRALIZED LOGIN PORTAL (UNAUTHENTICATED VIEW) */
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: radial-gradient(circle at 50% 30%, rgba(15, 23, 42, 0.9) 0%, rgba(7, 11, 20, 0.98) 100%);
+    }
+
+    .auth-box {
+      width: 100%;
+      max-width: 480px;
+      background: var(--bg-card);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 36px 32px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+
+    .auth-box:hover {
+      border-color: rgba(0, 242, 254, 0.3);
+    }
+
+    .brand-logo-large {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      color: #070b14;
+      margin: 0 auto 16px auto;
+      box-shadow: var(--glow-cyan);
+    }
+
+    .auth-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      text-align: center;
+      background: linear-gradient(90deg, #ffffff, var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .auth-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 6px;
+      margin-bottom: 24px;
+    }
+
+    .auth-mode-switch {
+      display: flex;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+
+    .auth-mode-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      border-radius: 9px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .auth-mode-btn.active {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      color: #070b14;
+      box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+    }
+
+    .demo-pill-group {
+      margin-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 18px;
+    }
+
+    .demo-pill-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .demo-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .demo-pill-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .demo-pill-btn:hover {
+      background: rgba(0, 242, 254, 0.15);
+      border-color: var(--accent-cyan);
+      color: #fff;
+    }
+
+    /* AUTHENTICATED DASHBOARD LAYOUT */
+    .app-workspace {
+      display: none;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     header {
-      background: rgba(10, 14, 23, 0.8);
-      backdrop-filter: blur(16px);
+      background: rgba(7, 11, 20, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-color);
-      padding: 18px 40px;
+      padding: 16px 36px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
     }
 
-    .brand {
+    .brand-group {
       display: flex;
       align-items: center;
       gap: 14px;
     }
 
-    .brand-icon {
+    .brand-logo-sm {
       width: 42px;
       height: 42px;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-pink));
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-family: 'Outfit', sans-serif;
       font-weight: 800;
       font-size: 22px;
-      color: #0a0e17;
-      box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+      color: #070b14;
+      box-shadow: var(--glow-cyan);
     }
 
-    .brand-title {
+    .brand-info h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: 22px;
-      font-weight: 700;
+      font-size: 20px;
+      font-weight: 800;
       letter-spacing: -0.5px;
-      background: linear-gradient(90deg, #ffffff, var(--accent-primary));
+      background: linear-gradient(90deg, #ffffff, var(--accent-cyan));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .auth-badge {
+    .brand-info p {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .user-profile-card {
       display: flex;
       align-items: center;
       gap: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 6px 16px;
-      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border-color);
-      font-size: 14px;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 13px;
     }
 
-    .role-pill {
-      background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
-      color: #0a0e17;
-      font-weight: 700;
+    .role-badge {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      color: #070b14;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
       padding: 3px 10px;
       border-radius: 12px;
       text-transform: uppercase;
-      font-size: 11px;
+      font-size: 10px;
+      letter-spacing: 0.5px;
     }
 
+    /* MAIN WORKSPACE CONTENT */
     main {
-      max-width: 1280px;
-      margin: 30px auto;
-      padding: 0 20px;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px;
       width: 100%;
       flex: 1;
     }
 
-    .nav-tabs {
+    .tab-bar {
       display: flex;
-      gap: 12px;
+      gap: 8px;
       margin-bottom: 24px;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 12px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 6px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
       overflow-x: auto;
+      scrollbar-width: thin;
     }
 
     .tab-btn {
@@ -124,40 +331,45 @@
       border: none;
       color: var(--text-muted);
       font-family: 'Outfit', sans-serif;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
-      padding: 10px 20px;
+      padding: 10px 18px;
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.25s ease;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .tab-btn:hover {
-      color: var(--text-main);
-      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .tab-btn.active {
-      color: #0a0e17;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+      color: #070b14;
+      background: linear-gradient(135deg, var(--accent-cyan), #38bdf8);
+      font-weight: 700;
+      box-shadow: 0 4px 20px rgba(0, 242, 254, 0.35);
     }
 
-    .tab-content {
+    .tab-pane {
       display: none;
-      animation: fadeIn 0.3s ease;
+      animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .tab-content.active {
+    .tab-pane.active {
       display: block;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* GRID & CARDS */
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -170,67 +382,83 @@
       gap: 24px;
     }
 
-    .card {
+    .glass-card {
       background: var(--bg-card);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(16px);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
+      border-radius: 20px;
       padding: 24px;
       box-shadow: var(--glass-shadow);
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 24px;
     }
 
-    .card:hover {
-      border-color: rgba(0, 242, 254, 0.3);
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .card-title {
       font-family: 'Outfit', sans-serif;
       font-size: 18px;
       font-weight: 700;
-      margin-bottom: 16px;
+      color: #fff;
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* FORMS & INPUTS */
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     label {
       display: block;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 700;
       color: var(--text-muted);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     input, select, textarea {
       width: 100%;
-      padding: 12px 14px;
-      background: rgba(10, 14, 23, 0.6);
+      padding: 12px 16px;
+      background: var(--bg-glass-input);
       border: 1px solid var(--border-color);
-      border-radius: 10px;
+      border-radius: 12px;
       color: var(--text-main);
       font-family: inherit;
       font-size: 14px;
-      transition: border-color 0.2s ease;
+      transition: all 0.2s ease;
     }
 
     input:focus, select:focus, textarea:focus {
       outline: none;
-      border-color: var(--accent-primary);
-      box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
     }
 
+    /* BUTTONS */
     .btn {
-      width: 100%;
-      padding: 12px 20px;
+      padding: 12px 22px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       font-family: 'Outfit', sans-serif;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.25s ease;
@@ -240,473 +468,1060 @@
       gap: 8px;
     }
 
+    .btn-full { width: 100%; }
+
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-      color: #0a0e17;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      color: #070b14;
+      box-shadow: 0 4px 15px rgba(0, 242, 254, 0.25);
     }
 
     .btn-primary:hover {
-      box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
+      box-shadow: 0 6px 25px rgba(0, 242, 254, 0.45);
       transform: translateY(-1px);
     }
 
-    .btn-danger {
-      background: linear-gradient(135deg, var(--accent-orange), var(--accent-pink));
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
       color: #fff;
     }
 
-    .response-box {
-      margin-top: 16px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 12px;
-      font-family: monospace;
-      font-size: 12px;
-      color: #8be9fd;
-      max-height: 200px;
-      overflow-y: auto;
-      white-space: pre-wrap;
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
     }
 
-    .status-badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 8px;
-      font-size: 12px;
+    .btn-danger {
+      background: linear-gradient(135deg, var(--accent-red), var(--accent-pink));
+      color: #fff;
+    }
+
+    .btn-purple {
+      background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+      color: #fff;
+    }
+
+    /* PILLS & BADGES */
+    .pill {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
       font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
     }
 
-    .badge-flagged {
-      background: rgba(255, 88, 88, 0.2);
-      color: var(--accent-orange);
-      border: 1px solid rgba(255, 88, 88, 0.4);
-    }
-
-    .badge-ok {
-      background: rgba(0, 230, 118, 0.2);
+    .pill-green {
+      background: rgba(16, 185, 129, 0.15);
       color: var(--accent-green);
-      border: 1px solid rgba(0, 230, 118, 0.4);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .pill-orange {
+      background: rgba(249, 115, 22, 0.15);
+      color: var(--accent-orange);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+    }
+
+    .pill-red {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--accent-red);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    /* PROGRESS TRACK */
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 6px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.6s ease;
+    }
+
+    /* TABLES */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .data-table th {
+      text-align: left;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-muted);
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .data-table td {
+      padding: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
     }
 
     footer {
       border-top: 1px solid var(--border-color);
-      padding: 20px 40px;
+      padding: 24px 36px;
       text-align: center;
       color: var(--text-muted);
-      font-size: 13px;
+      font-size: 12px;
+      background: rgba(7, 11, 20, 0.9);
+      margin-top: auto;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="brand">
-      <div class="brand-icon">F</div>
-      <div class="brand-title">FitPulse Analytics & Club Platform</div>
-    </div>
-    <div class="auth-badge" id="authBadge">
-      <span>Not logged in</span>
-      <span class="role-pill" style="display:none" id="rolePill">GUEST</span>
-    </div>
-  </header>
+  <!-- TOAST NOTIFICATION STACK -->
+  <div id="toast-container"></div>
 
-  <main>
-    <div class="nav-tabs">
-      <button class="tab-btn active" onclick="switchTab('auth')">🔐 Auth & Membership</button>
-      <button class="tab-btn" onclick="switchTab('scheduling')">📅 Trainer Scheduling & Booking</button>
-      <button class="tab-btn" onclick="switchTab('health')">❤️ Health & Workout Log</button>
-      <button class="tab-btn" onclick="switchTab('consultant')">🩺 Consultant Risk Queue</button>
-      <button class="tab-btn" onclick="switchTab('notifications')">🔔 Async Notifications</button>
-    </div>
+  <!-- 1. UNAUTHENTICATED STATE: CENTRALIZED LOGIN / REGISTER PORTAL -->
+  <div id="loginPortal" class="login-wrapper">
+    <div class="auth-box">
+      <div class="brand-logo-large">F</div>
+      <h2 class="auth-title">FitPulse Platform</h2>
+      <p class="auth-subtitle">Sign in to access your personalized fitness & wellness workspace</p>
 
-    <!-- TAB 1: AUTH & MEMBERSHIP -->
-    <div id="tab-auth" class="tab-content active">
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title">✨ User Registration & Quick Login</div>
-          <div class="form-group">
-            <label>Quick Preset Accounts</label>
-            <select id="presetAccount" onchange="loadPreset()">
-              <option value="">-- Choose Role Preset --</option>
-              <option value="john.member@fitclub.com|Password123!">Member: John Doe</option>
-              <option value="trainer.alex@fitclub.com|trainerpass">Trainer: Alex Rivera</option>
-              <option value="consultant.sarah@fitclub.com|consultantpass">Health Consultant: Sarah Jenkins</option>
-              <option value="admin@fitclub.com|adminpass">Admin: System Administrator</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="authEmail" value="john.member@fitclub.com">
-          </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="authPassword" value="Password123!">
-          </div>
-          <div class="form-group">
-            <label>Full Name (for register)</label>
-            <input type="text" id="authName" value="John Doe">
-          </div>
-          <div class="form-group">
-            <label>Role</label>
-            <select id="authRole">
-              <option value="member">Member</option>
-              <option value="trainer">Trainer</option>
-              <option value="consultant">Health Consultant</option>
-              <option value="admin">Administrator</option>
-            </select>
-          </div>
-          <div style="display:flex; gap:12px;">
-            <button class="btn btn-primary" onclick="doLogin()">Log In</button>
-            <button class="btn" style="background:rgba(255,255,255,0.1); color:#fff;" onclick="doRegister()">Register</button>
-          </div>
-          <div class="response-box" id="authRes">Response log will appear here...</div>
+      <!-- AUTH MODE TOGGLE -->
+      <div class="auth-mode-switch">
+        <button id="tabBtnLogin" class="auth-mode-btn active" onclick="setAuthMode('login')">Sign In</button>
+        <button id="tabBtnRegister" class="auth-mode-btn" onclick="setAuthMode('register')">Register Account</button>
+      </div>
+
+      <!-- FORM FIELDS -->
+      <form onsubmit="handleAuthSubmit(event)">
+        <div class="form-group" id="groupFullName" style="display:none;">
+          <label>Full Name</label>
+          <input type="text" id="inputName" placeholder="e.g. John Doe">
         </div>
 
-        <div class="card">
-          <div class="card-title">💳 Membership Plans & Renewal Reminder Job</div>
-          <button class="btn btn-primary" style="margin-bottom:14px;" onclick="loadPlans()">Fetch Membership Tiers</button>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="inputEmail" placeholder="name@fitclub.com" required value="john.member@fitclub.com">
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="inputPassword" placeholder="••••••••" required value="Password123!">
+        </div>
+
+        <div class="form-group" id="groupRole" style="display:none;">
+          <label>Account Role Scope</label>
+          <select id="inputRole">
+            <option value="member">Member</option>
+            <option value="trainer">Trainer</option>
+            <option value="consultant">Health Consultant</option>
+            <option value="admin">System Administrator</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full" id="btnAuthSubmit">Sign In to Dashboard</button>
+      </form>
+
+      <!-- QUICK DEMO PRESETS -->
+      <div class="demo-pill-group">
+        <div class="demo-pill-title">⚡ Quick Fill Demo Accounts</div>
+        <div class="demo-pills">
+          <button class="demo-pill-btn" onclick="quickFill('john.member@fitclub.com','Password123!','member')">👤 Member: John</button>
+          <button class="demo-pill-btn" onclick="quickFill('trainer.alex@fitclub.com','trainerpass','trainer')">💪 Trainer: Alex</button>
+          <button class="demo-pill-btn" onclick="quickFill('consultant.sarah@fitclub.com','consultantpass','consultant')">🩺 Consultant: Sarah</button>
+          <button class="demo-pill-btn" onclick="quickFill('admin@fitclub.com','adminpass','admin')">👑 Admin</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. AUTHENTICATED STATE: PERSONALIZED DASHBOARD WORKSPACE -->
+  <div id="appWorkspace" class="app-workspace">
+    <!-- HEADER -->
+    <header>
+      <div class="brand-group">
+        <div class="brand-logo-sm">F</div>
+        <div class="brand-info">
+          <h1>FitPulse Platform</h1>
+          <p id="headerBranchName">Downtown Central Branch</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- USER PROFILE BADGE -->
+        <div class="user-profile-card">
+          <span id="activeUserName">Member Name</span>
+          <span class="role-badge" id="activeUserRole">MEMBER</span>
+        </div>
+
+        <!-- LOG OUT BUTTON -->
+        <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="doLogout()">Sign Out</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- ROLE-BASED DYNAMIC TABS NAVIGATION -->
+      <div class="tab-bar" id="roleTabBar">
+        <!-- Injected dynamically based on active user role -->
+      </div>
+
+      <!-- TAB PANE 1: MY MEMBER DASHBOARD & NUTRITION PLAN (MEMBER ONLY) -->
+      <div id="pane-member-home" class="tab-pane">
+        <div class="glass-card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">💳 My Membership Status & Plan Tiers</div>
+              <div class="card-subtitle" id="membershipStatusDesc">Loading membership details...</div>
+            </div>
+            <button class="btn btn-primary" style="padding:6px 14px; font-size:12px;" onclick="loadPlans()">Browse / Upgrade Plan</button>
+          </div>
           <div id="plansList"></div>
+        </div>
 
-          <div style="margin-top:20px; border-top:1px solid var(--border-color); padding-top:16px;">
-            <div class="card-title">⏰ Automated Renewal Reminder Job (Admin)</div>
-            <p style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">Scans members expiring in ≤7 days and dispatches non-duplicate renewal alerts asynchronously.</p>
-            <button class="btn btn-primary" onclick="runRenewalJob()">Trigger Renewal Reminders Job</button>
-            <div class="response-box" id="renewalRes">Reminder output log...</div>
+        <div class="glass-card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">🥗 My Personalized Wellness & Nutrition Plan</div>
+              <div class="card-subtitle">AI-calculated macros, daily calories, and recommended workout schedule</div>
+            </div>
+            <button class="btn btn-purple" style="padding:6px 14px; font-size:12px;" onclick="loadPersonalizedPlan()">Recalculate My Plan</button>
+          </div>
+          <div id="wellnessPlanContainer">
+            <p style="color:var(--text-muted)">Generating your personalized nutrition plan...</p>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- TAB 2: SCHEDULING -->
-    <div id="tab-scheduling" class="tab-content">
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title">💪 Trainer Availability Calendar</div>
-          <div class="form-group">
-            <label>Start Time</label>
-            <input type="datetime-local" id="slotStart" value="2026-09-01T10:00">
+      <!-- TAB PANE 2: SCHEDULING & BOOKINGS (MEMBER, TRAINER, ADMIN) -->
+      <div id="pane-scheduling" class="tab-pane">
+        <div class="grid-2">
+          <!-- ADD AVAILABILITY (TRAINER/ADMIN ONLY) -->
+          <div class="glass-card" id="cardAddSlot" style="display:none;">
+            <div class="card-header">
+              <div>
+                <div class="card-title">💪 Add Availability Slot</div>
+                <div class="card-subtitle">Trainer calendar availability registration</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Start Time</label>
+              <input type="datetime-local" id="slotStart">
+            </div>
+            <div class="form-group">
+              <label>End Time</label>
+              <input type="datetime-local" id="slotEnd">
+            </div>
+            <button class="btn btn-primary btn-full" onclick="addSlot()">Create Availability Slot</button>
           </div>
-          <div class="form-group">
-            <label>End Time</label>
-            <input type="datetime-local" id="slotEnd" value="2026-09-01T11:00">
+
+          <!-- BOOKING BROWSER -->
+          <div class="glass-card" style="grid-column: span 2;">
+            <div class="card-header">
+              <div>
+                <div class="card-title">📅 Open Trainer Slots & Booking Engine</div>
+                <div class="card-subtitle">Atomic concurrency-guarded slot reservations</div>
+              </div>
+              <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="loadOpenSlots()">Refresh Slots</button>
+            </div>
+            <div id="openSlotsList"><p style="color:var(--text-muted)">Loading available slots...</p></div>
           </div>
-          <button class="btn btn-primary" onclick="addSlot()">Add Availability Slot (Trainer/Admin)</button>
-          <div class="response-box" id="slotRes">Slot response log...</div>
         </div>
 
-        <div class="card">
-          <div class="card-title">📅 Browse & Book Session (Atomic Conflict Guard)</div>
-          <button class="btn btn-primary" style="margin-bottom:12px;" onclick="loadSlots()">Refresh Open Trainer Slots</button>
-          <div id="slotsContainer"></div>
-          <div class="response-box" id="bookRes" style="margin-top:12px;">Booking result log...</div>
+        <div class="glass-card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">📋 My Session Bookings & History</div>
+              <div class="card-subtitle">View and manage scheduled trainer appointments</div>
+            </div>
+            <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="loadMyBookings()">Refresh Bookings</button>
+          </div>
+          <div id="myBookingsList"><p style="color:var(--text-muted)">Loading your bookings...</p></div>
         </div>
       </div>
-    </div>
 
-    <!-- TAB 3: HEALTH & PROGRESS -->
-    <div id="tab-health" class="tab-content">
-      <div class="grid-2">
-        <div class="card">
-          <div class="card-title">📋 Onboarding Health Assessment</div>
-          <div class="form-group">
-            <label>Medical History (Encrypted at rest)</label>
-            <textarea id="medHistory" rows="3" placeholder="e.g. Mild hypertension, no prior cardiac surgeries"></textarea>
+      <!-- TAB PANE 3: HEALTH & BIOMETRICS (MEMBER) -->
+      <div id="pane-health" class="tab-pane">
+        <div class="grid-2">
+          <div class="glass-card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">📋 Onboarding Health Intake</div>
+                <div class="card-subtitle">Medical history encrypted with AES-256 at rest</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Medical History</label>
+              <textarea id="medHistory" rows="3" placeholder="e.g. Mild hypertension, allergy to penicillin, no cardiac surgeries"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Fitness Goals</label>
+              <input type="text" id="fitGoals" value="Build endurance & lower blood pressure">
+            </div>
+            <div class="form-group">
+              <label>Emergency Contact</label>
+              <input type="text" id="emergContact" value="Jane Doe (555-0199)">
+            </div>
+            <button class="btn btn-primary btn-full" onclick="submitAssessment()">Submit Assessment</button>
           </div>
-          <div class="form-group">
-            <label>Fitness Goals</label>
-            <input type="text" id="fitGoals" value="Build stamina and lower blood pressure">
+
+          <div class="glass-card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">🏃 Log Daily Biometrics & Workout</div>
+                <div class="card-subtitle">Automatic health risk evaluation (BP > 140/90)</div>
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="form-group"><label>Systolic BP (mmHg)</label><input type="number" id="sysBp" value="145"></div>
+              <div class="form-group"><label>Diastolic BP (mmHg)</label><input type="number" id="diaBp" value="92"></div>
+            </div>
+            <div class="grid-2">
+              <div class="form-group"><label>Heart Rate (bpm)</label><input type="number" id="heartRate" value="84"></div>
+              <div class="form-group"><label>Weight (kg)</label><input type="number" id="weightKg" value="76.5"></div>
+            </div>
+            <div class="grid-2">
+              <div class="form-group"><label>Workout Type</label><input type="text" id="workoutType" value="Zone 2 Interval Cardio"></div>
+              <div class="form-group"><label>Duration (mins)</label><input type="number" id="workoutDuration" value="45"></div>
+            </div>
+            <button class="btn btn-purple btn-full" onclick="logHealthMetrics()">Log Metrics & Check Risk</button>
           </div>
-          <div class="form-group">
-            <label>Emergency Contact</label>
-            <input type="text" id="emergContact" value="Jane Doe (555-0199)">
+        </div>
+      </div>
+
+      <!-- TAB PANE 4: CONSULTANT RISK QUEUE (CONSULTANT / ADMIN) -->
+      <div id="pane-consultant" class="tab-pane">
+        <div class="glass-card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">🩺 Health Consultant Review Queue</div>
+              <div class="card-subtitle">Review members with flagged biometric thresholds or health risks</div>
+            </div>
+            <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="loadRiskQueue()">Refresh Queue</button>
           </div>
-          <button class="btn btn-primary" onclick="submitAssessment()">Submit Onboarding Assessment</button>
-          <div class="response-box" id="assessRes">Assessment log...</div>
+          <div id="riskQueueList"><p style="color:var(--text-muted)">Loading risk queue...</p></div>
+        </div>
+      </div>
+
+      <!-- TAB PANE 5: EXECUTIVE ANALYTICS & MULTI-BRANCH (ADMIN / TRAINER) -->
+      <div id="pane-analytics" class="tab-pane">
+        <div class="grid-2" style="margin-bottom:24px;">
+          <div class="glass-card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">🌐 Multi-Branch Performance Matrix</div>
+                <div class="card-subtitle">Revenue, members, & equipment capacity per branch</div>
+              </div>
+              <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="loadAnalytics()">Refresh Data</button>
+            </div>
+            <div id="branchMatrixContainer"></div>
+          </div>
+
+          <div class="glass-card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">💪 Trainer Utilization & Workload</div>
+                <div class="card-subtitle">Monthly sessions & rating breakdown</div>
+              </div>
+            </div>
+            <div id="trainerWorkloadContainer"></div>
+          </div>
         </div>
 
-        <div class="card">
-          <div class="card-title">🏃 Log Workout & Biometrics (Risk Threshold Evaluator)</div>
-          <div class="form-group">
-            <label>Systolic BP (mmHg) [>140 flags risk]</label>
-            <input type="number" id="sysBp" value="145">
+        <div class="glass-card" id="cardRenewalJob" style="display:none;">
+          <div class="card-header">
+            <div>
+              <div class="card-title">⏰ Automated Renewal Reminders Job (Admin)</div>
+              <div class="card-subtitle">Scan expiring memberships (&le;7 days) and send non-duplicate alerts</div>
+            </div>
+            <button class="btn btn-purple" style="padding:8px 16px; font-size:12px;" onclick="runRenewalJob()">Trigger Renewal Batch Job</button>
           </div>
-          <div class="form-group">
-            <label>Diastolic BP (mmHg) [>90 flags risk]</label>
-            <input type="number" id="diaBp" value="92">
-          </div>
-          <div class="form-group">
-            <label>Heart Rate (bpm)</label>
-            <input type="number" id="hr" value="82">
-          </div>
-          <div class="form-group">
-            <label>Weight (kg)</label>
-            <input type="number" id="weight" value="75">
-          </div>
-          <button class="btn btn-primary" onclick="logMetrics()">Log Biometrics & Check Risk</button>
-          <div class="response-box" id="metricRes">Metrics evaluation log...</div>
+          <div id="renewalJobLog" style="font-family:monospace; font-size:12px; color:#7dd3fc; margin-top:8px;"></div>
         </div>
       </div>
-    </div>
 
-    <!-- TAB 4: CONSULTANT RISK QUEUE -->
-    <div id="tab-consultant" class="tab-content">
-      <div class="card">
-        <div class="card-title">🩺 Consultant Review Queue (Flagged Risk Records)</div>
-        <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px;">Restricted to Health Consultant and Administrator roles. Displays members whose biometrics or health history triggered risk thresholds.</p>
-        <button class="btn btn-primary" style="max-width:250px; margin-bottom:16px;" onclick="loadRiskQueue()">Refresh Review Queue</button>
-        <div id="queueContainer"></div>
+      <!-- TAB PANE 6: FACILITY & EQUIPMENT (ADMIN, TRAINER) -->
+      <div id="pane-facility" class="tab-pane">
+        <div class="glass-card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">🏋️ Equipment & Facility Monitor</div>
+              <div class="card-subtitle">Real-time status, unit utilization, and maintenance logs</div>
+            </div>
+            <button class="btn btn-outline" style="padding:6px 14px; font-size:12px;" onclick="loadEquipment()">Refresh Equipment</button>
+          </div>
+          <div id="equipmentListContainer"></div>
+        </div>
       </div>
-    </div>
 
-    <!-- TAB 5: NOTIFICATIONS -->
-    <div id="tab-notifications" class="tab-content">
-      <div class="card">
-        <div class="card-title">🔔 Async Event-Driven Notifications Log</div>
-        <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px;">Notifications triggered asynchronously via EventEmitter & Redis Pub/Sub without delaying latency-sensitive HTTP paths.</p>
-        <button class="btn btn-primary" style="max-width:250px; margin-bottom:16px;" onclick="loadNotifications()">Fetch My Notifications</button>
-        <div id="notifContainer"></div>
+      <!-- TAB PANE 7: NOTIFICATIONS LOG -->
+      <div id="pane-notifications" class="tab-pane">
+        <div class="glass-card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">🔔 Notification Log Feed</div>
+              <div class="card-subtitle">Event-driven asynchronous notifications log</div>
+            </div>
+            <button class="btn btn-primary" style="padding:6px 14px; font-size:12px;" onclick="loadNotifications()">Fetch Notifications</button>
+          </div>
+          <div id="notificationsLogContainer"></div>
+        </div>
       </div>
-    </div>
-  </main>
 
-  <footer>
-    Fitness Club & Wellness Analytics Platform &bull; Node.js Express + PostgreSQL + Redis Microservices Architecture
-  </footer>
+    </main>
+
+    <footer>
+      <p>FitPulse Platform &bull; Node.js Express + Dual Database Engine (PostgreSQL / Memory) + Async Pub/Sub</p>
+    </footer>
+  </div>
 
   <script>
-    let currentToken = '';
-    let currentUser = null;
+    // APP STATE
+    let authMode = 'login'; // 'login' or 'register'
+    let currentToken = localStorage.getItem('fitpulse_token') || '';
+    let currentUser = JSON.parse(localStorage.getItem('fitpulse_user') || 'null');
 
-    function switchTab(name) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      event.target.classList.add('active');
-      document.getElementById('tab-' + name).classList.add('active');
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize Datetimes for scheduling inputs
+      const now = new Date();
+      const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      tomorrow.setHours(10, 0, 0, 0);
+      const tomorrowEnd = new Date(tomorrow.getTime() + 60 * 60 * 1000);
+      document.getElementById('slotStart').value = tomorrow.toISOString().slice(0, 16);
+      document.getElementById('slotEnd').value = tomorrowEnd.toISOString().slice(0, 16);
+
+      // Check if user is already logged in
+      if (currentToken && currentUser) {
+        showAppWorkspace();
+      } else {
+        showLoginPortal();
+      }
+    });
+
+    // TOAST UTILITY
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      if (type === 'success') toast.style.borderColor = 'var(--accent-green)';
+      if (type === 'error') toast.style.borderColor = 'var(--accent-red)';
+      toast.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '⚠️' : 'ℹ️'}</span> <span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
     }
 
-    function loadPreset() {
-      const val = document.getElementById('presetAccount').value;
-      if (!val) return;
-      const [email, pass] = val.split('|');
-      document.getElementById('authEmail').value = email;
-      document.getElementById('authPassword').value = pass;
+    // AUTH MODE SWITCHER
+    function setAuthMode(mode) {
+      authMode = mode;
+      document.getElementById('tabBtnLogin').classList.toggle('active', mode === 'login');
+      document.getElementById('tabBtnRegister').classList.toggle('active', mode === 'register');
+      document.getElementById('groupFullName').style.display = mode === 'register' ? 'block' : 'none';
+      document.getElementById('groupRole').style.display = mode === 'register' ? 'block' : 'none';
+      document.getElementById('btnAuthSubmit').innerText = mode === 'login' ? 'Sign In to Dashboard' : 'Register & Enter Portal';
     }
 
-    async function doLogin() {
-      const email = document.getElementById('authEmail').value;
-      const password = document.getElementById('authPassword').value;
+    function quickFill(email, pass, role) {
+      document.getElementById('inputEmail').value = email;
+      document.getElementById('inputPassword').value = pass;
+      document.getElementById('inputRole').value = role;
+      document.getElementById('inputName').value = role.charAt(0).toUpperCase() + role.slice(1) + ' User';
+      setAuthMode('login');
+      showToast(`Prefilled ${role.toUpperCase()} credentials. Click Sign In!`, 'info');
+    }
+
+    // HANDLE AUTH SUBMIT (LOGIN OR REGISTER)
+    async function handleAuthSubmit(event) {
+      event.preventDefault();
+      const email = document.getElementById('inputEmail').value.trim();
+      const password = document.getElementById('inputPassword').value.trim();
+      const name = document.getElementById('inputName').value.trim() || 'FitPulse User';
+      const role = document.getElementById('inputRole').value;
+
+      const endpoint = authMode === 'login' ? '/api/auth/login' : '/api/auth/register';
+      const payload = authMode === 'login' ? { email, password } : { email, password, name, role };
 
       try {
-        const res = await fetch('/api/auth/login', {
+        const res = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
+          body: JSON.stringify(payload)
         });
         const data = await res.json();
-        document.getElementById('authRes').innerText = JSON.stringify(data, null, 2);
 
-        if (data.token) {
+        if (res.ok && data.token) {
           currentToken = data.token;
           currentUser = data.user;
-          updateAuthBadge();
+          localStorage.setItem('fitpulse_token', currentToken);
+          localStorage.setItem('fitpulse_user', JSON.stringify(currentUser));
+          showToast(`Signed in successfully as ${currentUser.name} (${currentUser.role.toUpperCase()})`, 'success');
+          showAppWorkspace();
+        } else {
+          showToast(data.error || 'Authentication failed', 'error');
         }
       } catch (err) {
-        document.getElementById('authRes').innerText = err.message;
+        showToast('Network error during authentication', 'error');
       }
     }
 
-    async function doRegister() {
-      const email = document.getElementById('authEmail').value;
-      const password = document.getElementById('authPassword').value;
-      const name = document.getElementById('authName').value;
-      const role = document.getElementById('authRole').value;
-
-      try {
-        const res = await fetch('/api/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password, name, role })
-        });
-        const data = await res.json();
-        document.getElementById('authRes').innerText = JSON.stringify(data, null, 2);
-
-        if (data.token) {
-          currentToken = data.token;
-          currentUser = data.user;
-          updateAuthBadge();
-        }
-      } catch (err) {
-        document.getElementById('authRes').innerText = err.message;
-      }
+    // LOGOUT
+    function doLogout() {
+      currentToken = '';
+      currentUser = null;
+      localStorage.removeItem('fitpulse_token');
+      localStorage.removeItem('fitpulse_user');
+      showToast('Signed out successfully', 'info');
+      showLoginPortal();
     }
 
-    function updateAuthBadge() {
-      if (currentUser) {
-        document.getElementById('authBadge').innerHTML = `
-          <span>${currentUser.name} (${currentUser.email})</span>
-          <span class="role-pill">${currentUser.role}</span>
+    function showLoginPortal() {
+      document.getElementById('loginPortal').style.display = 'flex';
+      document.getElementById('appWorkspace').style.display = 'none';
+    }
+
+    function showAppWorkspace() {
+      document.getElementById('loginPortal').style.display = 'none';
+      document.getElementById('appWorkspace').style.display = 'flex';
+
+      // Update Header Badges
+      document.getElementById('activeUserName').innerText = currentUser.name;
+      document.getElementById('activeUserRole').innerText = currentUser.role.toUpperCase();
+
+      // Build Role-Specific Tabs & Content
+      setupRoleWorkspace();
+    }
+
+    // DYNAMIC ROLE WORKSPACE SETUP
+    function setupRoleWorkspace() {
+      const role = currentUser.role;
+      const navBar = document.getElementById('roleTabBar');
+      let tabsHtml = '';
+
+      if (role === 'member') {
+        tabsHtml = `
+          <button class="tab-btn active" onclick="switchTab('member-home')">🏠 My Dashboard & Nutrition</button>
+          <button class="tab-btn" onclick="switchTab('scheduling')">📅 Book Trainer Sessions</button>
+          <button class="tab-btn" onclick="switchTab('health')">❤️ My Health & Biometrics</button>
+          <button class="tab-btn" onclick="switchTab('notifications')">🔔 My Notifications</button>
+        `;
+      } else if (role === 'trainer') {
+        tabsHtml = `
+          <button class="tab-btn active" onclick="switchTab('scheduling')">📅 Trainer Schedule Portal</button>
+          <button class="tab-btn" onclick="switchTab('analytics')">📊 Analytics Overview</button>
+          <button class="tab-btn" onclick="switchTab('facility')">🏋️ Facility Equipment Monitor</button>
+          <button class="tab-btn" onclick="switchTab('notifications')">🔔 System Notifications</button>
+        `;
+      } else if (role === 'consultant') {
+        tabsHtml = `
+          <button class="tab-btn active" onclick="switchTab('consultant')">🩺 Consultant Risk Queue</button>
+          <button class="tab-btn" onclick="switchTab('analytics')">📊 Health Risk Analytics</button>
+          <button class="tab-btn" onclick="switchTab('notifications')">🔔 System Notifications</button>
+        `;
+      } else if (role === 'admin') {
+        tabsHtml = `
+          <button class="tab-btn active" onclick="switchTab('analytics')">📊 Executive Club Analytics</button>
+          <button class="tab-btn" onclick="switchTab('member-home')">💳 Memberships & Renewal Job</button>
+          <button class="tab-btn" onclick="switchTab('scheduling')">📅 All Trainer Schedules</button>
+          <button class="tab-btn" onclick="switchTab('consultant')">🩺 Risk Queue Overseer</button>
+          <button class="tab-btn" onclick="switchTab('facility')">🏋️ Facility & Equipment Manager</button>
+          <button class="tab-btn" onclick="switchTab('notifications')">🔔 System Notifications Feed</button>
         `;
       }
+
+      navBar.innerHTML = tabsHtml;
+
+      // Show/Hide Role-Specific Elements
+      document.getElementById('cardAddSlot').style.display = (role === 'trainer' || role === 'admin') ? 'block' : 'none';
+      document.getElementById('cardRenewalJob').style.display = (role === 'admin') ? 'block' : 'none';
+
+      // Default Active Tab
+      const defaultTab = (role === 'member') ? 'member-home' : (role === 'trainer' || role === 'admin') ? (role === 'admin' ? 'analytics' : 'scheduling') : 'consultant';
+      switchTab(defaultTab);
     }
 
+    // SWITCH WORKSPACE TAB PANE
+    function switchTab(paneName) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+      const targetBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(`'${paneName}'`));
+      if (targetBtn) targetBtn.classList.add('active');
+
+      const targetPane = document.getElementById('pane-' + paneName);
+      if (targetPane) targetPane.classList.add('active');
+
+      // Load pane data
+      if (paneName === 'member-home') { loadPlans(); loadPersonalizedPlan(); }
+      if (paneName === 'scheduling') { loadOpenSlots(); loadMyBookings(); }
+      if (paneName === 'consultant') loadRiskQueue();
+      if (paneName === 'analytics') loadAnalytics();
+      if (paneName === 'facility') loadEquipment();
+      if (paneName === 'notifications') loadNotifications();
+    }
+
+    // MEMBERSHIP PLANS
     async function loadPlans() {
-      const res = await fetch('/api/membership/plans');
-      const data = await res.json();
-      let html = '';
-      data.forEach(p => {
-        html += `<div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:10px; margin-bottom:10px; border:1px solid var(--border-color);">
-          <strong style="color:var(--accent-primary)">${p.name}</strong> - $${p.price}/mo
-          <div style="font-size:12px; color:var(--text-muted);">${p.features}</div>
-        </div>`;
-      });
-      document.getElementById('plansList').innerHTML = html;
+      try {
+        const res = await fetch('/api/membership/plans');
+        const data = await res.json();
+        let html = '<div class="grid-3">';
+        data.forEach(p => {
+          html += `
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-color); border-radius:14px; padding:18px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <strong style="color:var(--accent-cyan); font-size:16px;">${p.name}</strong>
+                <span style="font-family:'Outfit'; font-weight:800; font-size:18px;">$${p.price}<span style="font-size:11px; color:var(--text-muted);">/mo</span></span>
+              </div>
+              <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">${p.features}</p>
+              <button class="btn btn-primary btn-full" style="padding:8px 14px; font-size:12px;" onclick="enrollPlan(${p.id})">Enroll / Upgrade</button>
+            </div>
+          `;
+        });
+        html += '</div>';
+        document.getElementById('plansList').innerHTML = html;
+        if (currentUser && currentUser.membership_expiry) {
+          document.getElementById('membershipStatusDesc').innerText = `Active Plan ID: ${currentUser.membership_plan_id || 1} • Renews on ${new Date(currentUser.membership_expiry).toLocaleDateString()}`;
+        } else {
+          document.getElementById('membershipStatusDesc').innerText = 'Choose a plan tier to get full club access.';
+        }
+      } catch (e) {
+        document.getElementById('plansList').innerHTML = '<p style="color:var(--accent-red)">Failed to load plans.</p>';
+      }
     }
 
-    async function runRenewalJob() {
-      if (!currentToken) return alert('Please log in first as Admin!');
-      const res = await fetch('/api/membership/reminders/run', {
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + currentToken }
-      });
-      const data = await res.json();
-      document.getElementById('renewalRes').innerText = JSON.stringify(data, null, 2);
+    async function enrollPlan(planId) {
+      try {
+        const res = await fetch('/api/membership/enroll', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + currentToken
+          },
+          body: JSON.stringify({ planId })
+        });
+        const data = await res.json();
+        showToast('Membership tier upgraded successfully!', 'success');
+        loadPlans();
+      } catch (e) {
+        showToast('Failed to upgrade membership', 'error');
+      }
     }
 
+    // PERSONALIZED WELLNESS & NUTRITION
+    async function loadPersonalizedPlan() {
+      try {
+        const res = await fetch('/api/health/recommendations', {
+          headers: { 'Authorization': 'Bearer ' + currentToken }
+        });
+        const plan = await res.json();
+
+        let precHtml = '';
+        if (plan.precautions && plan.precautions.length > 0) {
+          precHtml = `
+            <div style="background:rgba(239,68,68,0.1); border:1px solid var(--accent-red); border-radius:12px; padding:14px; margin-bottom:20px;">
+              <strong style="color:var(--accent-red)">Medical Safety Alerts:</strong>
+              <ul style="margin-left:20px; font-size:12px; color:#fca5a5; margin-top:6px;">
+                ${plan.precautions.map(p => `<li>${p}</li>`).join('')}
+              </ul>
+            </div>
+          `;
+        }
+
+        const html = `
+          ${precHtml}
+          <div class="grid-3" style="margin-bottom:20px;">
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-color); border-radius:16px; padding:18px;">
+              <div style="font-size:12px; color:var(--text-muted)">Daily Calorie Goal</div>
+              <div style="font-family:'Outfit'; font-size:32px; font-weight:800; color:var(--accent-cyan);">${plan.nutrition.dailyCalories} <span style="font-size:14px; color:#fff">kcal</span></div>
+              <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Goal: ${plan.fitnessGoals}</div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-color); border-radius:16px; padding:18px;">
+              <div style="font-size:12px; color:var(--text-muted)">Daily Water Intake Target</div>
+              <div style="font-family:'Outfit'; font-size:32px; font-weight:800; color:var(--accent-blue);">${plan.nutrition.waterLiters} <span style="font-size:14px; color:#fff">Liters</span></div>
+              <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Body mass: ${plan.weightKg} kg</div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-color); border-radius:16px; padding:18px;">
+              <div style="font-size:12px; color:var(--text-muted)">Macronutrient Targets</div>
+              <div style="margin-top:10px;">
+                <div style="display:flex; justify-content:space-between; font-size:11px;"><span>Protein (${plan.nutrition.macros.protein.grams}g)</span><span>${plan.nutrition.macros.protein.percent}%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:${plan.nutrition.macros.protein.percent}%; background:var(--accent-cyan)"></div></div>
+                <div style="display:flex; justify-content:space-between; font-size:11px; margin-top:4px;"><span>Carbs (${plan.nutrition.macros.carbs.grams}g)</span><span>${plan.nutrition.macros.carbs.percent}%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:${plan.nutrition.macros.carbs.percent}%; background:var(--accent-purple)"></div></div>
+                <div style="display:flex; justify-content:space-between; font-size:11px; margin-top:4px;"><span>Fats (${plan.nutrition.macros.fats.grams}g)</span><span>${plan.nutrition.macros.fats.percent}%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:${plan.nutrition.macros.fats.percent}%; background:var(--accent-orange)"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <h4 style="font-family:'Outfit'; font-size:15px; margin-bottom:10px; color:#fff;">🥗 Daily Meal Recommendations</h4>
+              ${plan.nutrition.recommendedMealPlan.map(m => `
+                <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-color); border-radius:12px; padding:12px; margin-bottom:8px;">
+                  <span class="pill pill-green" style="font-size:9px;">${m.meal}</span>
+                  <strong style="display:block; margin-top:4px; font-size:13px; color:#fff;">${m.title}</strong>
+                  <p style="font-size:12px; color:var(--text-muted); margin-top:2px;">${m.desc}</p>
+                </div>
+              `).join('')}
+            </div>
+
+            <div>
+              <h4 style="font-family:'Outfit'; font-size:15px; margin-bottom:10px; color:#fff;">🗓️ 7-Day Workout Split</h4>
+              ${plan.workoutPlan.schedule.map(s => `
+                <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-color); border-radius:12px; padding:10px 14px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                  <div>
+                    <strong style="color:var(--accent-cyan); font-size:13px;">${s.day}: ${s.focus}</strong>
+                    <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Duration: ${s.duration}</div>
+                  </div>
+                  <span class="pill pill-orange" style="font-size:9px;">${s.intensity}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        document.getElementById('wellnessPlanContainer').innerHTML = html;
+      } catch (e) {
+        document.getElementById('wellnessPlanContainer').innerHTML = '<p style="color:var(--accent-red)">Error fetching custom nutrition plan.</p>';
+      }
+    }
+
+    // SCHEDULING & BOOKINGS
     async function addSlot() {
-      if (!currentToken) return alert('Please log in first!');
       const startTime = document.getElementById('slotStart').value;
       const endTime = document.getElementById('slotEnd').value;
-
-      const res = await fetch('/api/scheduling/availability', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + currentToken
-        },
-        body: JSON.stringify({ startTime, endTime })
-      });
-      const data = await res.json();
-      document.getElementById('slotRes').innerText = JSON.stringify(data, null, 2);
-    }
-
-    async function loadSlots() {
-      const res = await fetch('/api/scheduling/availability', {
-        headers: currentToken ? { 'Authorization': 'Bearer ' + currentToken } : {}
-      });
-      const data = await res.json();
-      let html = '';
-      if (!Array.isArray(data) || data.length === 0) {
-        html = '<div style="color:var(--text-muted);">No open availability slots found.</div>';
-      } else {
-        data.forEach(s => {
-          html += `<div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border-color);">
-            <div>
-              <strong>Trainer #${s.trainer_id}</strong> (${s.trainer_name || 'Alex'})<br>
-              <span style="font-size:12px; color:var(--text-muted);">${new Date(s.start_time).toLocaleString()}</span>
-            </div>
-            <button class="btn btn-primary" style="width:auto; padding:6px 16px;" onclick="bookSlot(${s.id})">Book Slot</button>
-          </div>`;
+      try {
+        const res = await fetch('/api/scheduling/availability', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + currentToken },
+          body: JSON.stringify({ startTime, endTime })
         });
+        const data = await res.json();
+        if (res.ok) {
+          showToast('Availability slot added!', 'success');
+          loadOpenSlots();
+        } else {
+          showToast(data.error || 'Failed to add slot', 'error');
+        }
+      } catch (e) {
+        showToast('Network error adding slot', 'error');
       }
-      document.getElementById('slotsContainer').innerHTML = html;
     }
 
-    async function bookSlot(id) {
-      if (!currentToken) return alert('Please log in first!');
-      const res = await fetch('/api/scheduling/book', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + currentToken
-        },
-        body: JSON.stringify({ availabilityId: id })
-      });
-      const data = await res.json();
-      document.getElementById('bookRes').innerText = JSON.stringify(data, null, 2);
-      loadSlots();
+    async function loadOpenSlots() {
+      try {
+        const res = await fetch('/api/scheduling/availability', {
+          headers: { 'Authorization': 'Bearer ' + currentToken }
+        });
+        const data = await res.json();
+        let html = '';
+        if (!Array.isArray(data) || data.length === 0) {
+          html = '<p style="color:var(--text-muted); font-size:13px;">No open trainer availability slots found.</p>';
+        } else {
+          data.forEach(s => {
+            html += `
+              <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-color); border-radius:12px; padding:12px 16px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <strong style="color:var(--accent-cyan);">Trainer #${s.trainer_id}</strong> (${s.trainer_name || 'Coach Rivera'})
+                  <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">📅 ${new Date(s.start_time).toLocaleString()}</div>
+                </div>
+                <button class="btn btn-primary" style="padding:6px 14px; font-size:12px;" onclick="bookSlot(${s.id})">Book Slot</button>
+              </div>
+            `;
+          });
+        }
+        document.getElementById('openSlotsList').innerHTML = html;
+      } catch (e) {
+        document.getElementById('openSlotsList').innerHTML = '<p style="color:var(--accent-red)">Error loading slots.</p>';
+      }
     }
 
+    async function bookSlot(availabilityId) {
+      try {
+        const res = await fetch('/api/scheduling/book', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + currentToken },
+          body: JSON.stringify({ availabilityId })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showToast('Session booked successfully!', 'success');
+          loadOpenSlots();
+          loadMyBookings();
+        } else {
+          showToast(data.error || 'Booking conflict guard triggered', 'error');
+        }
+      } catch (e) {
+        showToast('Error booking slot', 'error');
+      }
+    }
+
+    async function loadMyBookings() {
+      try {
+        const res = await fetch('/api/scheduling/bookings', {
+          headers: { 'Authorization': 'Bearer ' + currentToken }
+        });
+        const data = await res.json();
+        let html = '';
+        if (!Array.isArray(data) || data.length === 0) {
+          html = '<p style="color:var(--text-muted); font-size:13px;">No active bookings found.</p>';
+        } else {
+          data.forEach(b => {
+            html += `
+              <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-color); border-radius:12px; padding:12px 16px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <strong style="color:var(--accent-purple);">Booking #${b.id}</strong> &bull; Trainer #${b.trainer_id}
+                  <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">📅 ${new Date(b.start_time).toLocaleString()} &bull; Status: <span class="pill pill-green">${b.status}</span></div>
+                </div>
+                <button class="btn btn-danger" style="padding:4px 10px; font-size:11px;" onclick="cancelBooking(${b.id})">Cancel Session</button>
+              </div>
+            `;
+          });
+        }
+        document.getElementById('myBookingsList').innerHTML = html;
+      } catch (e) {
+        document.getElementById('myBookingsList').innerHTML = '<p style="color:var(--accent-red)">Error loading bookings.</p>';
+      }
+    }
+
+    async function cancelBooking(bookingId) {
+      try {
+        await fetch(`/api/scheduling/bookings/${bookingId}/cancel`, {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + currentToken }
+        });
+        showToast('Booking cancelled', 'info');
+        loadMyBookings();
+        loadOpenSlots();
+      } catch (e) {
+        showToast('Error cancelling booking', 'error');
+      }
+    }
+
+    // HEALTH & BIOMETRICS
     async function submitAssessment() {
-      if (!currentToken) return alert('Please log in first!');
       const medical_history = document.getElementById('medHistory').value;
       const fitness_goals = document.getElementById('fitGoals').value;
       const emergency_contact = document.getElementById('emergContact').value;
-
-      const res = await fetch('/api/health/assessment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + currentToken
-        },
-        body: JSON.stringify({ medical_history, fitness_goals, emergency_contact })
-      });
-      const data = await res.json();
-      document.getElementById('assessRes').innerText = JSON.stringify(data, null, 2);
+      try {
+        const res = await fetch('/api/health/assessment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + currentToken },
+          body: JSON.stringify({ medical_history, fitness_goals, emergency_contact })
+        });
+        const data = await res.json();
+        if (res.ok) showToast('Assessment encrypted & saved!', 'success');
+        else showToast(data.error || 'Submission failed', 'error');
+      } catch (e) {
+        showToast('Error submitting assessment', 'error');
+      }
     }
 
-    async function logMetrics() {
-      if (!currentToken) return alert('Please log in first!');
+    async function logHealthMetrics() {
       const systolic_bp = parseInt(document.getElementById('sysBp').value, 10);
       const diastolic_bp = parseInt(document.getElementById('diaBp').value, 10);
-      const heart_rate = parseInt(document.getElementById('hr').value, 10);
-      const weight_kg = parseFloat(document.getElementById('weight').value);
+      const heart_rate = parseInt(document.getElementById('heartRate').value, 10);
+      const weight_kg = parseFloat(document.getElementById('weightKg').value);
+      const workout_type = document.getElementById('workoutType').value;
+      const duration_minutes = parseInt(document.getElementById('workoutDuration').value, 10);
 
-      const res = await fetch('/api/health/metrics', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + currentToken
-        },
-        body: JSON.stringify({ systolic_bp, diastolic_bp, heart_rate, weight_kg })
-      });
-      const data = await res.json();
-      document.getElementById('metricRes').innerText = JSON.stringify(data, null, 2);
+      try {
+        const res = await fetch('/api/health/metrics', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + currentToken },
+          body: JSON.stringify({ systolic_bp, diastolic_bp, heart_rate, weight_kg, workout_type, duration_minutes })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          if (data.risk_flagged) showToast('⚠️ High risk biometrics flagged! Health consultant notified.', 'error');
+          else showToast('Biometrics logged successfully!', 'success');
+        } else {
+          showToast(data.error || 'Validation error', 'error');
+        }
+      } catch (e) {
+        showToast('Error logging metrics', 'error');
+      }
     }
 
+    // CONSULTANT RISK QUEUE
     async function loadRiskQueue() {
-      if (!currentToken) return alert('Please log in as Consultant or Admin!');
-      const res = await fetch('/api/health/review-queue', {
-        headers: { 'Authorization': 'Bearer ' + currentToken }
-      });
-      const data = await res.json();
-      let html = '';
-      if (!Array.isArray(data) || data.length === 0) {
-        html = '<div style="color:var(--text-muted);">Review queue is empty.</div>';
-      } else {
-        data.forEach(item => {
-          html += `<div style="background:rgba(0,0,0,0.3); padding:14px; border-radius:10px; margin-bottom:12px; border:1px solid var(--border-color);">
-            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-              <strong>Member #${item.member_id} (${item.member_name || item.member_email})</strong>
-              <span class="status-badge badge-flagged">${item.status}</span>
-            </div>
-            <div style="font-size:13px; color:var(--accent-orange); margin-bottom:8px;">⚠️ ${item.risk_reason}</div>
-            <div style="font-size:11px; color:var(--text-muted);">Logged at ${new Date(item.created_at).toLocaleString()}</div>
-          </div>`;
+      try {
+        const res = await fetch('/api/health/review-queue', {
+          headers: { 'Authorization': 'Bearer ' + currentToken }
         });
+        const data = await res.json();
+        if (res.status === 403) {
+          document.getElementById('riskQueueList').innerHTML = '<p style="color:var(--accent-red)">Restricted: Health Consultant or Admin role required.</p>';
+          return;
+        }
+
+        let html = '';
+        if (!Array.isArray(data) || data.length === 0) {
+          html = '<p style="color:var(--text-muted); font-size:13px;">Review queue is clear. No member health risk flags pending.</p>';
+        } else {
+          data.forEach(item => {
+            html += `
+              <div style="background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.3); border-radius:14px; padding:16px; margin-bottom:14px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <strong style="color:#fff; font-size:15px;">Member #${item.member_id}: ${item.member_name || item.member_email}</strong>
+                  <span class="pill pill-red">${item.status}</span>
+                </div>
+                <div style="font-size:13px; color:var(--accent-orange); margin:8px 0;">⚠️ Flagged Risk: ${item.risk_reason}</div>
+                <div style="font-size:11px; color:var(--text-muted); display:flex; justify-content:space-between; align-items:center;">
+                  <span>Logged: ${new Date(item.created_at).toLocaleString()}</span>
+                  <button class="btn btn-primary" style="padding:4px 12px; font-size:11px;" onclick="reviewRiskItem(${item.id})">Approve & Clear</button>
+                </div>
+              </div>
+            `;
+          });
+        }
+        document.getElementById('riskQueueList').innerHTML = html;
+      } catch (e) {
+        document.getElementById('riskQueueList').innerHTML = '<p style="color:var(--accent-red)">Error loading risk queue.</p>';
       }
-      document.getElementById('queueContainer').innerHTML = html;
     }
 
-    async function loadNotifications() {
-      if (!currentToken) return alert('Please log in first!');
-      const res = await fetch('/api/notifications/my-notifications', {
-        headers: { 'Authorization': 'Bearer ' + currentToken }
-      });
-      const data = await res.json();
-      let html = '';
-      if (!Array.isArray(data) || data.length === 0) {
-        html = '<div style="color:var(--text-muted);">No notifications logged yet.</div>';
-      } else {
-        data.forEach(n => {
-          html += `<div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:10px; margin-bottom:10px; border:1px solid var(--border-color);">
-            <strong style="color:var(--accent-primary);">${n.type}</strong>
-            <div style="font-size:12px; color:var(--text-main); margin-top:4px;">${JSON.stringify(n.payload)}</div>
-            <div style="font-size:10px; color:var(--text-muted); margin-top:4px;">Dispatched at ${new Date(n.sent_at).toLocaleString()}</div>
-          </div>`;
+    async function reviewRiskItem(id) {
+      const notes = prompt('Enter consultant review notes:', 'Reviewed biometrics; member cleared for light cardio under HR 140.');
+      if (notes === null) return;
+
+      try {
+        await fetch(`/api/health/review-queue/${id}/review`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + currentToken },
+          body: JSON.stringify({ status: 'reviewed', notes })
         });
+        showToast('Risk flag cleared by Health Consultant!', 'success');
+        loadRiskQueue();
+      } catch (e) {
+        showToast('Error reviewing item', 'error');
       }
-      document.getElementById('notifContainer').innerHTML = html;
+    }
+
+    // EXECUTIVE ANALYTICS
+    async function loadAnalytics() {
+      try {
+        const res = await fetch('/api/analytics/dashboard', {
+          headers: { 'Authorization': 'Bearer ' + currentToken }
+        });
+        const data = await res.json();
+
+        if (data.branchBreakdown) {
+          let bHtml = `
+            <table class="data-table">
+              <thead><tr><th>Branch</th><th>Members</th><th>Revenue</th><th>Equipment Utilization</th></tr></thead>
+              <tbody>
+          `;
+          data.branchBreakdown.forEach(b => {
+            bHtml += `
+              <tr>
+                <td><strong style="color:#fff">${b.branch}</strong></td>
+                <td>${b.activeMembers}</td>
+                <td>$${b.monthlyRevenue.toLocaleString()}</td>
+                <td>${b.equipmentUtilizationPct}%</td>
+              </tr>
+            `;
+          });
+          bHtml += '</tbody></table>';
+          document.getElementById('branchMatrixContainer').innerHTML = bHtml;
+        }
+
+        if (data.trainerWorkload) {
+          let tHtml = '';
+          data.trainerWorkload.forEach(t => {
+            tHtml += `
+              <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-color); border-radius:12px; padding:10px 14px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <strong style="color:var(--accent-purple);">${t.name}</strong> (${t.specialty})
+                  <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Clients: ${t.assignedClients} &bull; Monthly Sessions: ${t.sessionsCompletedThisMonth}</div>
+                </div>
+                <span class="pill pill-green">⭐ ${t.rating}</span>
+              </div>
+            `;
+          });
+          document.getElementById('trainerWorkloadContainer').innerHTML = tHtml;
+        }
+      } catch (e) {
+        console.warn('Analytics fetch note:', e);
+      }
+    }
+
+    async function runRenewalJob() {
+      try {
+        const res = await fetch('/api/membership/reminders/run', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + currentToken }
+        });
+        const data = await res.json();
+        document.getElementById('renewalJobLog').innerText = JSON.stringify(data, null, 2);
+        showToast(`Renewal job dispatched ${data.processedCount || 0} alerts!`, 'success');
+      } catch (e) {
+        document.getElementById('renewalJobLog').innerText = e.message;
+      }
+    }
+
+    // FACILITY & EQUIPMENT
+    async function loadEquipment() {
+      try {
+        const res = await fetch('/api/facility/equipment', {
+          headers: { 'Authorization': 'Bearer ' + currentToken }
+        });
+        const list = await res.json();
+        let html = `
+          <table class="data-table">
+            <thead><tr><th>Equipment Name</th><th>Branch</th><th>Category</th><th>In-Use / Total</th><th>Status</th></tr></thead>
+            <tbody>
+        `;
+        list.forEach(e => {
+          const capPct = Math.round((e.in_use_units / e.total_units) * 100);
+          html += `
+            <tr>
+              <td><strong style="color:#fff">${e.name}</strong></td>
+              <td>${e.branch}</td>
+              <td>${e.category}</td>
+              <td>${e.in_use_units} / ${e.total_units} (${capPct}%)</td>
+              <td><span class="pill ${e.status === 'Available' ? 'pill-green' : 'pill-orange'}">${e.status}</span></td>
+            </tr>
+          `;
+        });
+        html += '</tbody></table>';
+        document.getElementById('equipmentListContainer').innerHTML = html;
+      } catch (e) {
+        document.getElementById('equipmentListContainer').innerHTML = '<p style="color:var(--accent-red)">Error loading equipment.</p>';
+      }
+    }
+
+    // NOTIFICATIONS LOG
+    async function loadNotifications() {
+      try {
+        const res = await fetch('/api/notifications/my-notifications', {
+          headers: { 'Authorization': 'Bearer ' + currentToken }
+        });
+        const data = await res.json();
+        let html = '';
+        if (!Array.isArray(data) || data.length === 0) {
+          html = '<p style="color:var(--text-muted); font-size:13px;">No notifications logged for your account.</p>';
+        } else {
+          data.forEach(n => {
+            html += `
+              <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-color); border-radius:12px; padding:12px; margin-bottom:8px;">
+                <strong style="color:var(--accent-cyan); font-size:13px;">⚡ ${n.type}</strong>
+                <div style="font-size:11px; color:var(--text-muted); margin-top:4px; font-family:monospace;">${JSON.stringify(n.payload)}</div>
+              </div>
+            `;
+          });
+        }
+        document.getElementById('notificationsLogContainer').innerHTML = html;
+      } catch (e) {
+        document.getElementById('notificationsLogContainer').innerHTML = '<p style="color:var(--accent-red)">Error loading notifications.</p>';
+      }
     }
   </script>
 </body>

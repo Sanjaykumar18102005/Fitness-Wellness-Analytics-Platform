@@ -12,6 +12,9 @@ router.post('/metrics', authenticateToken, requireRole('member', 'admin'), (req,
 // Member view own health logs
 router.get('/my-logs', authenticateToken, (req, res) => healthController.getMyHealthLogs(req, res));
 
+// Member view personalized nutrition & fitness recommendation plan
+router.get('/recommendations', authenticateToken, (req, res) => healthController.getRecommendations(req, res));
+
 // Health Consultant & Admin only: view risk review queue
 router.get('/review-queue', authenticateToken, requireRole('consultant', 'admin'), (req, res) => healthController.getRiskReviewQueue(req, res));
 

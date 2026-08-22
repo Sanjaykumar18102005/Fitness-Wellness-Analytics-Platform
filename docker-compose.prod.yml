@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  app-prod:
+    image: ${DOCKER_REGISTRY:-fitnessplatform}/fitness-app:${DOCKER_IMAGE_TAG:-1.0.0}
+    container_name: fitness_app_prod
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DB_HOST=db-prod
+      - DB_PORT=5432
+      - DB_USER=${DB_USER:-prod_user}
+      - DB_PASSWORD=${DB_PASSWORD:-prod_password}
+      - DB_NAME=${DB_NAME:-fitness_prod_db}
+      - JWT_SECRET=${JWT_SECRET:-fitpulse_production_jwt_secret_key_2026}
+      - ENCRYPTION_SECRET=${ENCRYPTION_SECRET:-fitpulse_prod_encryption_secret_32c!}
+    depends_on:
+      db-prod:
+        condition: service_healthy
+    networks:
+      - prod-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/api/health-check || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  db-prod:
+    image: postgres:16-alpine
+    container_name: fitness_postgres_prod
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-prod_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-prod_password}
+      POSTGRES_DB: ${DB_NAME:-fitness_prod_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-prod-data:/var/lib/postgresql/data
+    networks:
+      - prod-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-prod_user} -d ${DB_NAME:-fitness_prod_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  prod-net:
+    driver: bridge
+
+volumes:
+  db-prod-data:
+    driver: local

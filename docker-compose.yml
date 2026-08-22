@@ -1,33 +1,82 @@
-version: "3.9"
+version: "3.8"
 
 services:
+  # 1. MAIN FITPULSE WEB APPLICATION (PORT 3000)
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fitness_app
+    restart: always
     ports:
       - "3000:3000"
-    env_file:
-      - .env
+    environment:
+      - PORT=3000
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=${DB_USER:-testuser}
+      - DB_PASSWORD=${DB_PASSWORD:-testpassword}
+      - DB_NAME=${DB_NAME:-fitness_platform}
+      - JWT_SECRET=${JWT_SECRET:-fitness_wellness_jwt_secret_key_2026}
+      - ENCRYPTION_SECRET=${ENCRYPTION_SECRET:-fitness_wellness_default_secret_key_32chars!}
     depends_on:
-      - db
-      - cache
+      db:
+        condition: service_healthy
     networks:
       - fitness-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/api/health-check || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
+  # 2. SINGLE PRIMARY POSTGRESQL DATABASE (FIXED PORT 5432)
   db:
     image: postgres:16-alpine
-    restart: unless-stopped
+    container_name: fitness_postgres_db
+    restart: always
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: fitness_platform
+      POSTGRES_USER: ${DB_USER:-testuser}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-testpassword}
+      POSTGRES_DB: ${DB_NAME:-fitness_platform}
+    ports:
+      - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
     networks:
       - fitness-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-testuser} -d ${DB_NAME:-fitness_platform}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  cache:
-    image: redis:7-alpine
-    restart: unless-stopped
+  # 3. JENKINS CI/CD AUTOMATION SERVER (FIXED PORT 8080)
+  jenkins:
+    image: jenkins/jenkins:lts-jdk17
+    container_name: fitness_jenkins
+    restart: always
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - fitness-net
+
+  # 4. POSTGRESQL VISUAL WEB DASHBOARD - ADMINER (FIXED PORT 8081)
+  db-gui:
+    image: adminer:latest
+    container_name: fitness_db_gui
+    restart: always
+    ports:
+      - "8081:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: fitness_postgres_db
+    depends_on:
+      - db
     networks:
       - fitness-net
 
@@ -37,3 +86,6 @@ networks:
 
 volumes:
   db-data:
+    driver: local
+  jenkins-data:
+    driver: local

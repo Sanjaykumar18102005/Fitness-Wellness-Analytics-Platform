@@ -1,4 +1,5 @@
 const healthService = require('../services/healthService');
+const recommendationService = require('../services/recommendationService');
 
 class HealthController {
   async submitAssessment(req, res) {
@@ -23,6 +24,15 @@ class HealthController {
     try {
       const logs = await healthService.getMemberHealthLogs(req.user.id);
       return res.status(200).json(logs);
+    } catch (err) {
+      return res.status(err.status || 500).json({ error: err.message });
+    }
+  }
+
+  async getRecommendations(req, res) {
+    try {
+      const plan = await recommendationService.getPersonalizedPlan(req.user.id);
+      return res.status(200).json(plan);
     } catch (err) {
       return res.status(err.status || 500).json({ error: err.message });
     }

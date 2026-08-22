@@ -13,6 +13,8 @@ const membershipRoutes = require('./routes/membershipRoutes');
 const schedulingRoutes = require('./routes/schedulingRoutes');
 const healthRoutes = require('./routes/healthRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const facilityRoutes = require('./routes/facilityRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -43,6 +45,8 @@ app.use('/api/membership', membershipRoutes);
 app.use('/api/scheduling', schedulingRoutes);
 app.use('/api/health', healthRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/facility', facilityRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // General Health Check Endpoint
 app.get('/api/health-check', (req, res) => {

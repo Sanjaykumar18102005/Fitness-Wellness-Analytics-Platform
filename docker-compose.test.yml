@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  db-test:
+    image: postgres:16-alpine
+    container_name: fitness_postgres_test
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testpassword
+      POSTGRES_DB: fitness_platform_test
+    ports:
+      - "5433:5432"
+    networks:
+      - test-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U testuser -d fitness_platform_test"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+
+  cache-test:
+    image: redis:7-alpine
+    container_name: fitness_redis_test
+    ports:
+      - "6380:6379"
+    networks:
+      - test-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+
+networks:
+  test-net:
+    driver: bridge
