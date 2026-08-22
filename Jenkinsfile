@@ -17,9 +17,9 @@ pipeline {
                 sh '''
                     if [ ! -d "node-${NODE_VERSION}-linux-x64" ]; then
                         echo "Downloading portable Node.js ${NODE_VERSION}..."
-                        curl -sOSL https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.xz
-                        tar -xf node-${NODE_VERSION}-linux-x64.tar.xz
-                        rm node-${NODE_VERSION}-linux-x64.tar.xz
+                        curl -sOSL https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.gz
+                        tar -xzf node-${NODE_VERSION}-linux-x64.tar.gz
+                        rm node-${NODE_VERSION}-linux-x64.tar.gz
                     fi
                 '''
             }
