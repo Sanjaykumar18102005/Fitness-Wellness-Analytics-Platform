@@ -57,6 +57,13 @@ pipeline {
                 '''
             }
         }
+
+        stage('5. Deploy') {
+            steps {
+                echo "Rebuilding and deploying updated app container..."
+                sh 'docker compose up -d --build app'
+            }
+        }
     }
 
     post {
