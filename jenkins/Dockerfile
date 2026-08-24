@@ -10,7 +10,8 @@ RUN apt-get update && \
       ca-certificates \
       curl \
       gnupg2 \
-      docker.io && \
+      docker.io \
+      docker-compose && \
     rm -rf /var/lib/apt/lists/*
 
 # Add jenkins user to docker group
