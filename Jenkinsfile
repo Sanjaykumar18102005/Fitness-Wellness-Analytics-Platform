@@ -60,8 +60,12 @@ pipeline {
 
         stage('5. Deploy') {
             steps {
-                echo 'Rebuilding app container without build cache...'
-                sh 'DOCKER_BUILDKIT=0 docker compose up -d --build --force-recreate --no-deps app'
+                echo 'Rebuilding and deploying updated app container...'
+                sh '''
+                    docker stop fitness_app || true
+                    docker rm fitness_app || true
+                    DOCKER_BUILDKIT=0 docker compose up -d --build --no-deps app
+                '''
             }
         }
     }
