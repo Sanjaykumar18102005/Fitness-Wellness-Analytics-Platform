@@ -60,8 +60,8 @@ pipeline {
 
         stage('5. Deploy') {
             steps {
-                echo 'Rebuilding and restarting app container on existing port...'
-                sh 'docker compose up -d --build --force-recreate --no-deps app'
+                echo 'Rebuilding app container without build cache...'
+                sh 'DOCKER_BUILDKIT=0 docker compose up -d --build --force-recreate --no-deps app'
             }
         }
     }
