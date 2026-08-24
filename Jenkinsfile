@@ -60,11 +60,24 @@ pipeline {
 
         stage('5. Deploy') {
             steps {
-                echo 'Rebuilding and deploying updated app container...'
+                echo 'Rebuilding and deploying updated app container directly...'
                 sh '''
-                    docker stop fitness_app || true
-                    docker rm fitness_app || true
-                    DOCKER_BUILDKIT=0 docker compose up -d --build --no-deps app
+                    docker rm -f fitness_app || true
+                    docker build -t fitness-app:latest .
+                    NET_NAME=$(docker network ls --format '{{.Name}}' | grep fitness-net | head -n 1 || echo "bridge")
+                    docker run -d \
+                        --name fitness_app \
+                        --network "${NET_NAME}" \
+                        -e PORT=3000 \
+                        -e DB_HOST=fitness_postgres_db \
+                        -e DB_PORT=5432 \
+                        -e DB_USER=testuser \
+                        -e DB_PASSWORD=testpassword \
+                        -e DB_NAME=fitness_platform \
+                        -e JWT_SECRET=fitness_wellness_jwt_secret_key_2026 \
+                        -e ENCRYPTION_SECRET=fitness_wellness_default_secret_key_32chars! \
+                        -p 3000:3000 \
+                        fitness-app:latest
                 '''
             }
         }
